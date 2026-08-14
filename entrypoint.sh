@@ -12,8 +12,9 @@ env DISPLAY=:0 fluxbox &
 # 비밀번호 없이 로컬호스트에서만 접속 가능하도록 설정하여 보안과 메모리를 최적화합니다.
 x11vnc -display :0 -nopw -listen localhost -xkb -forever -shared -bg
 
-# 4. 경량 한글 웹 브라우저(Midori) 실행
-env DISPLAY=:0 midori &
+# 4. 웹 브라우저(Firefox ESR) 실행
+# 메모리 사용량을 줄이기 위한 옵션 추가
+env DISPLAY=:0 firefox --no-sandbox --window-size=1024,768 &
 
 # 5. 웹 소켓 프록시(websockify) 실행
 # 포트 8080으로 들어오는 HTTP 요청에는 /usr/share/novnc 폴더의 파일을 제공하고,
