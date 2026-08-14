@@ -1,11 +1,14 @@
 # 1. KasmVNC 기반의 가벼운 공식 파이어폭스 이미지 사용
 FROM kasmweb/firefox:1.15.0
 
-# [추가] 클라우드타입 점검을 통과하기 위해 SSL 강제 설정을 끕니다.
-ENV KASM_VNC_SSL=defaults
-
-# 2. 내부 패키지 관리자 권한(root)으로 전환하여 한국어 환경 설정
+# 2. 내부 패키지 관리자 및 설정 파일 수정을 위해 root 권한으로 전환
 USER root
+
+# [추가] KasmVNC 설정 파일에서 SSL(HTTPS/WSS) 강제 옵션을 꺼버립니다.
+# require_ssl 설정을 true에서 false로 강제 변경하는 명령어입니다.
+RUN if [ -f /etc/kasmvnc/kasmvnc.yaml ]; then \
+        sed -i 's/require_ssl: true/require_ssl: false/g' /etc/kasmvnc/kasmvnc.yaml; \
+    fi
 
 # 3. 한글 나눔폰트 및 한글 입력기(uim) 설치
 RUN apt-get update && apt-get install -y \
